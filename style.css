@@ -1,0 +1,416 @@
+/* --- Global Styles & Variables --- */
+:root {
+    /* Light Mode Colors (Original Theme) */
+    --bg-color: #f8f9fa;
+    --text-color: #343a40;
+    --card-bg: #ffffff;
+    --card-shadow: rgba(0, 0, 0, 0.08);
+    --primary-color: #0056b3;
+    --secondary-color: #17a2b8;
+    --accent-color: #fd7e14;
+    --heading-color: #212529;
+    --icon-color: var(--primary-color);
+    --border-color: #dee2e6;
+    --timeline-line: #ced4da;
+    --skill-bar-bg: #e9ecef;
+    /* -- Added for Hovers -- */
+    --overlay-bg: rgba(0, 0, 0, 0.75);
+    --overlay-text: #ffffff;
+    /* Removed timeline-details variables as it's now overlay */
+
+    /* Dark Mode Colors (Original Theme) */
+    --dark-bg-color: #121212;
+    --dark-text-color: #e0e0e0;
+    --dark-card-bg: #1e1e1e;
+    --dark-card-shadow: rgba(255, 255, 255, 0.1);
+    --dark-primary-color: #4dabf7;
+    --dark-secondary-color: #4dd0e1;
+    --dark-accent-color: #ffab40;
+    --dark-heading-color: #ffffff;
+    --dark-icon-color: var(--dark-primary-color);
+    --dark-border-color: #444;
+    --dark-timeline-line: #555;
+    --dark-skill-bar-bg: #333;
+    /* -- Added for Hovers (Dark) -- */
+    --dark-overlay-bg: rgba(0, 0, 0, 0.85);
+    --dark-overlay-text: #e0e0e0;
+     /* Removed dark timeline-details variables */
+}
+
+* { box-sizing: border-box; margin: 0; padding: 0; }
+html { scroll-behavior: smooth; font-size: 16px; }
+body {
+    font-family: 'Poppins', sans-serif;
+    line-height: 1.7;
+    background-color: var(--bg-color);
+    color: var(--text-color);
+    transition: background-color 0.3s ease, color 0.3s ease;
+}
+body.dark-mode { /* Apply dark mode variables */
+    --bg-color: var(--dark-bg-color);
+    --text-color: var(--dark-text-color);
+    --card-bg: var(--dark-card-bg);
+    --card-shadow: var(--dark-card-shadow);
+    --primary-color: var(--dark-primary-color);
+    --secondary-color: var(--dark-secondary-color);
+    --accent-color: var(--dark-accent-color);
+    --heading-color: var(--dark-heading-color);
+    --icon-color: var(--dark-icon-color);
+    --border-color: var(--dark-border-color);
+    --timeline-line: var(--dark-timeline-line);
+    --skill-bar-bg: var(--dark-skill-bar-bg);
+    /* -- Apply dark mode hover variables -- */
+    --overlay-bg: var(--dark-overlay-bg);
+    --overlay-text: var(--dark-overlay-text);
+}
+
+/* --- Theme Toggle Button (Original) --- */
+#theme-toggle {
+    position: fixed; top: 20px; right: 20px; background: var(--card-bg); border: 1px solid var(--border-color);
+    border-radius: 50%; width: 45px; height: 45px; cursor: pointer; z-index: 1000; display: flex;
+    justify-content: center; align-items: center; box-shadow: 0 2px 5px var(--card-shadow);
+    transition: background-color 0.3s ease, border-color 0.3s ease, transform 0.2s ease;
+}
+#theme-toggle:hover { transform: scale(1.1); }
+#theme-toggle i { font-size: 20px; color: var(--primary-color); transition: color 0.3s ease; }
+body.dark-mode #theme-toggle i { color: var(--dark-primary-color); }
+#theme-toggle .fa-sun { display: none; }
+#theme-toggle .fa-moon { display: inline-block; }
+body.dark-mode #theme-toggle .fa-sun { display: inline-block; }
+body.dark-mode #theme-toggle .fa-moon { display: none; }
+
+/* --- Layout & Typography (Original) --- */
+.container { max-width: 1140px; margin: 0 auto; padding: 0 25px; }
+.section {
+    padding: 80px 0; border-bottom: 1px dashed var(--border-color); opacity: 0; transform: translateY(30px);
+    transition: opacity 0.8s ease-out, transform 0.8s ease-out;
+}
+.section.visible { opacity: 1; transform: translateY(0); }
+.section:last-of-type { border-bottom: none; }
+h1, h2, h3, h4 { font-family: 'Raleway', sans-serif; font-weight: 700; color: var(--heading-color); margin-bottom: 1rem; transition: color 0.3s ease; }
+h1 { font-size: 3rem; letter-spacing: 1px; }
+h2 { font-size: 2.2rem; text-align: center; margin-bottom: 50px; position: relative; padding-bottom: 15px; }
+h2::after { content: ''; position: absolute; bottom: 0; left: 50%; transform: translateX(-50%); width: 80px; height: 4px; background-color: var(--primary-color); border-radius: 2px; transition: background-color 0.3s ease; }
+h3 { font-size: 1.6rem; margin-bottom: 1.5rem; color: var(--primary-color); }
+body.dark-mode h3 { color: var(--dark-primary-color); }
+h4 { font-size: 1.25rem; color: var(--secondary-color); }
+body.dark-mode h4 { color: var(--dark-secondary-color); }
+p { margin-bottom: 1rem; font-weight: 300; }
+a { color: var(--primary-color); text-decoration: none; transition: color 0.3s ease; font-weight: 400; }
+a:hover { color: var(--accent-color); text-decoration: underline; }
+body.dark-mode a { color: var(--dark-primary-color); }
+body.dark-mode a:hover { color: var(--dark-accent-color); }
+.text-center { text-align: center; }
+strong { font-weight: 600; }
+i { margin-right: 8px; }
+h2 i, h3 i { margin-right: 12px; color: var(--icon-color); }
+
+/* --- Header / Hero Section (Original) --- */
+#hero {
+    background: linear-gradient(rgba(0, 0, 0, 0.5), rgba(0, 0, 0, 0.7)), url('https://via.placeholder.com/1920x1080/212529/FFFFFF?text=Replace+With+Your+Background') no-repeat center center/cover; /* --- REPLACE ME --- */
+    color: #fff; min-height: 100vh; display: flex; flex-direction: column; justify-content: center;
+    align-items: center; text-align: center; padding: 0 20px; position: relative;
+}
+#hero h1 { color: #fff; margin-bottom: 0.5rem; font-size: 3.5rem; }
+#hero .subtitle { font-size: 1.5rem; margin-bottom: 1.5rem; color: rgba(255, 255, 255, 0.85); font-weight: 300; }
+#hero .intro { font-size: 1.15rem; max-width: 750px; margin: 1rem auto 2.5rem; color: rgba(255, 255, 255, 0.9); font-weight: 300; }
+#hero .social-links a { color: #fff; font-size: 1.8rem; margin: 0 18px; transition: transform 0.3s ease, color 0.3s ease; }
+#hero .social-links a:hover { transform: translateY(-3px); color: var(--dark-accent-color); text-decoration: none; }
+.scroll-down-btn { position: absolute; bottom: 30px; left: 50%; transform: translateX(-50%); color: #fff; font-size: 1.8rem; animation: bounce 2s infinite; text-decoration: none; }
+.scroll-down-btn:hover { color: var(--dark-accent-color); text-decoration: none; }
+@keyframes bounce { 0%, 20%, 50%, 80%, 100% { transform: translateX(-50%) translateY(0); } 40% { transform: translateX(-50%) translateY(-15px); } 60% { transform: translateX(-50%) translateY(-8px); } }
+
+/* --- About Section (Original) --- */
+#about { display: flex; flex-wrap: wrap; gap: 40px; align-items: flex-start; }
+.about-content { flex: 1; min-width: 300px; }
+.about-text p { margin-bottom: 0.8rem; }
+.about-text i { color: var(--icon-color); width: 18px; text-align: center; }
+.education-section { flex: 1.5; min-width: 350px; }
+.education-section h3 { margin-bottom: 2rem; }
+
+/* --- Education Timeline (Modified for Overlay Hover) --- */
+.education-timeline { position: relative; padding-left: 40px; }
+.education-timeline::before { content: ''; position: absolute; top: 10px; left: 10px; bottom: 10px; width: 3px; background-color: var(--timeline-line); border-radius: 2px; transition: background-color 0.3s ease; }
+.timeline-item {
+    position: relative;
+    margin-bottom: 35px;
+    cursor: pointer; /* For modal trigger */
+}
+.timeline-item:last-child { margin-bottom: 0; }
+.timeline-marker {
+    position: absolute;
+    left: -30px; top: 5px; width: 16px; height: 16px;
+    background-color: var(--card-bg); border: 3px solid var(--primary-color);
+    border-radius: 50%; z-index: 3; /* Above content */
+    transition: background-color 0.3s ease, border-color 0.3s ease, transform 0.2s ease;
+}
+.timeline-item:hover .timeline-marker { transform: scale(1.2); }
+.timeline-content {
+    background: var(--card-bg); padding: 15px 20px; border-radius: 8px;
+    box-shadow: 0 3px 8px var(--card-shadow);
+    transition: box-shadow 0.3s ease, background-color 0.3s ease; /* Keep original transitions */
+    position: relative; /* *** CHANGED: Context for overlay *** */
+    z-index: 1;
+    overflow: hidden; /* *** ADDED: Contain overlay *** */
+}
+.timeline-content h4 { margin-bottom: 0.3rem; font-size: 1.15rem; }
+.timeline-content .institution { font-weight: 600; color: var(--text-color); margin-bottom: 0.4rem; transition: color 0.3s ease; }
+body.dark-mode .timeline-content .institution { color: var(--dark-text-color); }
+.timeline-date { display: block; font-size: 0.85rem; color: #6c757d; margin-bottom: 0; }
+body.dark-mode .timeline-date { color: #aaa; }
+
+/* --- REMOVED Timeline Hover Details Box Styles --- */
+/* .timeline-hover-details { ... } */
+/* .timeline-item:hover .timeline-hover-details { ... } */
+/* ... etc ... */
+
+/* --- NEW Timeline Content Overlay Styles --- */
+.timeline-content-overlay {
+    position: absolute;
+    top: 0; left: 0; width: 100%; height: 100%;
+    background-color: var(--overlay-bg);
+    color: var(--overlay-text);
+    padding: 15px 20px; /* Match timeline-content padding */
+    display: flex;
+    flex-direction: column;
+    justify-content: center; /* Center content vertically */
+    align-items: center; /* Center content horizontally */
+    text-align: center;
+    z-index: 2; /* Above original content */
+
+    /* --- Initial Hiding --- */
+    opacity: 0;
+    visibility: hidden;
+    transition: opacity 0.35s ease, visibility 0s linear 0.35s;
+    /* --- End Initial Hiding --- */
+}
+/* Show overlay on timeline item hover */
+.timeline-item:hover .timeline-content-overlay {
+    opacity: 1;
+    visibility: visible;
+    transition-delay: 0s; /* Show immediately */
+}
+
+/* Styling for content inside the timeline overlay */
+.timeline-content-overlay .overlay-logo {
+    width: 40px; /* Adjust as needed */
+    height: 40px;
+    object-fit: contain;
+    margin-bottom: 10px; /* Space below logo */
+}
+.timeline-content-overlay p {
+    color: var(--overlay-text); /* Ensure text color */
+    margin-bottom: 5px;
+    line-height: 1.4;
+}
+.timeline-content-overlay p.overlay-details {
+    font-size: 0.85rem;
+    font-weight: 600;
+}
+.timeline-content-overlay p.overlay-desc {
+    font-size: 0.8rem;
+    opacity: 0.9;
+}
+
+
+/* --- Resume Section (Original) --- */
+#resume p { max-width: 600px; margin: 0 auto 30px auto; }
+
+/* --- Buttons (Original + Overlay Style) --- */
+.btn { display: inline-block; padding: 12px 30px; border-radius: 50px; font-weight: 600; text-decoration: none; transition: all 0.3s ease; cursor: pointer; border: 2px solid transparent; font-size: 1rem; text-transform: uppercase; letter-spacing: 0.5px; }
+.btn i { margin-right: 8px; }
+.btn-primary { background-color: var(--primary-color); color: #fff; border-color: var(--primary-color); }
+.btn-primary:hover { background-color: var(--accent-color); border-color: var(--accent-color); color: #fff; transform: translateY(-3px); box-shadow: 0 4px 10px rgba(0, 0, 0, 0.15); text-decoration: none; }
+.btn-secondary { background-color: transparent; color: var(--secondary-color); border-color: var(--secondary-color); }
+.btn-secondary:hover { background-color: var(--secondary-color); color: #fff; transform: translateY(-3px); box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1); text-decoration: none; }
+body.dark-mode .btn-secondary { color: var(--dark-secondary-color); border-color: var(--dark-secondary-color); }
+body.dark-mode .btn-secondary:hover { background-color: var(--dark-secondary-color); color: var(--dark-bg-color); }
+/* Style for buttons inside card overlays */
+.btn-overlay { padding: 8px 20px; font-size: 0.9rem; }
+.btn-overlay.btn-secondary { color: var(--overlay-text); border-color: var(--overlay-text); background: rgba(255,255,255,0.1); }
+.btn-overlay.btn-secondary:hover { background: var(--accent-color); border-color: var(--accent-color); color: #fff; }
+body.dark-mode .btn-overlay.btn-secondary:hover { background: var(--dark-accent-color); border-color: var(--dark-accent-color); color: var(--dark-bg-color); }
+
+
+/* --- Skills Section (Original) --- */
+.skills-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 40px; }
+.skill-category h3 { font-size: 1.4rem; border-bottom: 2px solid var(--border-color); padding-bottom: 10px; margin-bottom: 25px; transition: border-color 0.3s ease; }
+.skill-category h3 i { color: var(--secondary-color); }
+body.dark-mode .skill-category h3 i { color: var(--dark-secondary-color); }
+.skill-item { margin-bottom: 20px; }
+.skill-name { display: block; margin-bottom: 8px; font-weight: 600; }
+.skill-bar { height: 12px; background-color: var(--skill-bar-bg); border-radius: 6px; overflow: hidden; position: relative; transition: background-color 0.3s ease; }
+.skill-level { height: 100%; width: 0; background: linear-gradient(90deg, var(--primary-color), var(--secondary-color)); border-radius: 6px; position: absolute; top: 0; left: 0; transition: width 1.5s ease-out; display: flex; align-items: center; justify-content: flex-end; padding-right: 8px; font-size: 0.75rem; color: #fff; font-weight: 600; }
+body.dark-mode .skill-level { background: linear-gradient(90deg, var(--dark-primary-color), var(--dark-secondary-color)); }
+
+/* --- Card Styles (Base from Original + NEW Hover Effects) --- */
+.card-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 30px; }
+
+.card {
+    background-color: var(--card-bg); border-radius: 10px; box-shadow: 0 4px 12px var(--card-shadow);
+    overflow: hidden;
+    transition: box-shadow 0.3s ease, background-color 0.3s ease, transform 0.3s ease;
+    display: flex; flex-direction: column;
+    position: relative; /* For overlay */
+    min-height: 180px;
+    transform: scale(1); /* For scale transition */
+}
+.card.modal-trigger { cursor: pointer; }
+
+/* Original Card Hover - subtle shadow change */
+.card:hover {
+    box-shadow: 0 8px 20px rgba(0, 0, 0, 0.12);
+}
+body.dark-mode .card:hover {
+    box-shadow: 0 8px 20px rgba(255, 255, 255, 0.12);
+}
+
+/* NEW Certificate & Achievement Card Specific Hover - Scale Effect */
+.certificate-card:hover,
+.experience-card:hover {
+    transform: scale(1.04);
+    z-index: 5;
+}
+
+/* Original card content styling */
+.card .card-content {
+    padding: 25px; flex-grow: 1; display: flex; flex-direction: column;
+    position: relative;
+    z-index: 1; /* Below the overlay */
+}
+
+/* --- REMOVED OLD HOVER IMAGE SLIDE UP --- */
+
+/* --- NEW Card Hover Overlay Styles --- */
+.card-hover-overlay {
+    position: absolute; top: 0; left: 0; width: 100%; height: 100%;
+    background-color: var(--overlay-bg);
+    color: var(--overlay-text);
+    display: flex; flex-direction: column;
+    align-items: center; justify-content: center;
+    padding: 20px; text-align: center;
+    border-radius: 10px;
+    z-index: 2;
+
+    /* --- CRUCIAL: Initial Hiding State --- */
+    opacity: 0;
+    visibility: hidden;
+    transition: opacity 0.35s ease, visibility 0s linear 0.35s;
+    /* --- End Crucial --- */
+}
+
+/* --- CRUCIAL: Showing Overlay on Hover --- */
+.card:hover .card-hover-overlay {
+    opacity: 1;
+    visibility: visible;
+    transition-delay: 0s;
+}
+/* --- End Crucial --- */
+
+/* Project Overlay Specifics (Keep as before) */
+.project-overlay img { max-width: 80%; max-height: 50%; object-fit: contain; margin-bottom: 15px; border-radius: 5px; }
+.project-overlay p { font-size: 0.9rem; line-height: 1.5; margin-bottom: 15px; flex-grow: 1; overflow: hidden; }
+.project-overlay .btn { margin-top: auto; }
+
+/* Certificate & Achievement Overlay Specifics (Keep as before) */
+.cert-achieve-overlay { justify-content: flex-start; padding-top: 15px; gap: 10px; }
+.cert-achieve-overlay .overlay-main-image { max-width: 90%; max-height: 60%; object-fit: contain; border-radius: 4px; }
+.cert-achieve-overlay .overlay-text-content { display: flex; align-items: center; gap: 10px; width: 90%; margin-top: 10px; text-align: left; }
+.cert-achieve-overlay .overlay-logo { width: 30px; height: 30px; object-fit: contain; flex-shrink: 0; }
+.cert-achieve-overlay p { font-size: 0.85rem; line-height: 1.4; margin-bottom: 0; color: var(--overlay-text); }
+
+
+/* Original Specific card adjustments */
+.certificate-card .card-content h4 { font-size: 1.1rem; color: var(--heading-color); margin-bottom: 0.5rem; }
+.certificate-card .card-content .card-description { font-size: 0.9rem; color: var(--text-color); margin-bottom: 0; }
+body.dark-mode .certificate-card .card-content h4 { color: var(--dark-heading-color); }
+body.dark-mode .certificate-card .card-content .card-description { color: var(--dark-text-color); }
+
+.experience-card .card-content { text-align: center; }
+.experience-card .card-content .card-icon { font-size: 2.5rem; color: var(--accent-color); margin-bottom: 1rem; transition: color 0.3s ease; }
+body.dark-mode .experience-card .card-content .card-icon { color: var(--dark-accent-color); }
+.experience-card .card-content h4 { color: var(--primary-color); margin-bottom: 0.5rem; }
+body.dark-mode .experience-card .card-content h4 { color: var(--dark-primary-color); }
+.experience-card .card-content .card-description { font-size: 0.9rem; margin-bottom: 0; }
+
+/* --- Contact Section (Original) --- */
+#contact p { max-width: 650px; margin: 0 auto 40px auto; }
+.contact-form { max-width: 700px; margin: 0 auto; background: var(--card-bg); padding: 30px 40px; border-radius: 8px; box-shadow: 0 5px 15px var(--card-shadow); transition: background-color 0.3s ease, box-shadow 0.3s ease; }
+.form-group { margin-bottom: 20px; }
+.form-group label { display: block; margin-bottom: 8px; font-weight: 600; color: var(--heading-color); transition: color 0.3s ease; }
+.form-group input[type="text"], .form-group input[type="email"], .form-group textarea {
+    width: 100%; padding: 12px 15px; border: 1px solid var(--border-color); border-radius: 5px;
+    font-family: 'Poppins', sans-serif; font-size: 1rem; background-color: var(--bg-color);
+    color: var(--text-color); transition: border-color 0.3s ease, background-color 0.3s ease, color 0.3s ease;
+}
+.form-group input:focus, .form-group textarea:focus { outline: none; border-color: var(--primary-color); }
+.form-group textarea { resize: vertical; min-height: 120px; }
+.contact-form .btn { display: block; width: 100%; margin-top: 10px; }
+
+/* --- Footer (Original) --- */
+footer { padding: 40px 0 20px; margin-top: 50px; background-color: var(--heading-color); color: rgba(255, 255, 255, 0.7); font-size: 0.9rem; transition: background-color 0.3s ease, color 0.3s ease; }
+body.dark-mode footer { background-color: #000; }
+.footer-links { margin-bottom: 15px; }
+.footer-links a { color: rgba(255, 255, 255, 0.7); font-size: 1.5rem; margin: 0 12px; transition: color 0.3s ease; }
+.footer-links a:hover { color: var(--dark-accent-color); text-decoration: none; }
+footer p { margin-bottom: 0; }
+footer .fa-heart { color: var(--accent-color); margin: 0 3px; }
+body.dark-mode footer .fa-heart { color: var(--dark-accent-color); }
+
+/* --- Modal Styles (Original) --- */
+#modal-container { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background-color: rgba(0, 0, 0, 0.75); display: flex; justify-content: center; align-items: center; z-index: 1010; opacity: 0; visibility: hidden; transition: opacity 0.3s ease, visibility 0s linear 0.3s; padding: 20px; }
+#modal-container.visible { opacity: 1; visibility: visible; transition: opacity 0.3s ease, visibility 0s linear 0s; }
+.modal { background-color: var(--card-bg); padding: 30px 40px; border-radius: 12px; box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2); max-width: 600px; width: 90%; max-height: 85vh; overflow-y: auto; position: relative; transform: scale(0.9); opacity: 0; transition: transform 0.3s ease, opacity 0.3s ease, background-color 0.3s ease; }
+#modal-container.visible .modal { transform: scale(1); opacity: 1; }
+.close-modal-btn { position: absolute; top: 10px; right: 15px; background: none; border: none; font-size: 2rem; color: var(--text-color); cursor: pointer; line-height: 1; padding: 5px; transition: color 0.3s ease, transform 0.2s ease; opacity: 0.7; }
+body.dark-mode .close-modal-btn { color: var(--dark-text-color); }
+.close-modal-btn:hover { color: var(--accent-color); opacity: 1; transform: rotate(90deg); }
+body.dark-mode .close-modal-btn:hover { color: var(--dark-accent-color); }
+.modal-content { text-align: center; }
+.modal-content img { max-width: 100%; height: auto; max-height: 300px; display: block; margin: 0 auto 20px auto; border-radius: 8px; background-color: #eee; padding: 5px; border: 1px solid var(--border-color); transition: background-color 0.3s ease, border-color 0.3s ease; }
+body.dark-mode .modal-content img { background-color: #333; border-color: var(--dark-border-color); }
+#modal-icon-container { font-size: 3rem; color: var(--accent-color); margin-bottom: 15px; transition: color 0.3s ease; }
+body.dark-mode #modal-icon-container { color: var(--dark-accent-color); }
+.modal-content h4 { font-size: 1.6rem; color: var(--heading-color); margin-bottom: 0.5rem; transition: color 0.3s ease; }
+.modal-content #modal-subtitle { font-size: 1rem; font-weight: 600; color: var(--secondary-color); margin-bottom: 1rem; transition: color 0.3s ease; }
+body.dark-mode .modal-content #modal-subtitle { color: var(--dark-secondary-color); }
+.modal-content #modal-description, .modal-content #modal-extra-info { font-size: 1rem; color: var(--text-color); margin-bottom: 0.8rem; line-height: 1.6; text-align: left; transition: color 0.3s ease; }
+body.dark-mode .modal-content #modal-description, body.dark-mode .modal-content #modal-extra-info { color: var(--dark-text-color); }
+.modal-content #modal-extra-info { font-size: 0.9rem; opacity: 0.8; border-top: 1px dashed var(--border-color); margin-top: 15px; padding-top: 10px; transition: border-color 0.3s ease; }
+
+/* --- Responsiveness (Original + Adjustments for All Hovers) --- */
+@media (max-width: 992px) { h1 { font-size: 2.8rem; } h2 { font-size: 2rem; } #hero h1 { font-size: 3rem; } #hero .subtitle { font-size: 1.3rem; } }
+@media (max-width: 768px) {
+    html { font-size: 15px; } h1 { font-size: 2.5rem; } h2 { font-size: 1.8rem; margin-bottom: 40px; } h2::after { width: 60px; height: 3px; }
+    #hero { min-height: 80vh; } #hero h1 { font-size: 2.5rem; } #hero .subtitle { font-size: 1.2rem; } #hero .intro { font-size: 1.1rem; }
+    #about { flex-direction: column; } .education-timeline { padding-left: 30px; } .timeline-marker { left: -25px; width: 14px; height: 14px; }
+    .skills-grid { grid-template-columns: 1fr; } .card-grid { grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); gap: 25px; }
+    #theme-toggle { width: 40px; height: 40px; } #theme-toggle i { font-size: 18px; }
+    .contact-form { padding: 25px 20px; } .modal { padding: 25px 20px; max-width: 95%; } .modal-content h4 { font-size: 1.4rem; }
+    /* Adjust ALL hover elements */
+    .project-overlay p { font-size: 0.85rem; }
+    .cert-achieve-overlay p { font-size: 0.8rem; }
+    .cert-achieve-overlay .overlay-logo { width: 25px; height: 25px; }
+    .timeline-content-overlay { padding: 15px; } /* Adjust padding */
+    .timeline-content-overlay p.overlay-details { font-size: 0.8rem; }
+    .timeline-content-overlay p.overlay-desc { font-size: 0.75rem; }
+    .timeline-content-overlay .overlay-logo { width: 35px; height: 35px; }
+}
+@media (max-width: 480px) {
+    html { font-size: 14px; } .section { padding: 60px 0; } h1 { font-size: 2rem; } h2 { font-size: 1.6rem; } #hero { min-height: 70vh; } #hero h1 { font-size: 2.2rem; }
+    #hero .social-links a { font-size: 1.6rem; margin: 0 12px; } .btn { padding: 10px 25px; font-size: 0.9rem; } .card-grid { grid-template-columns: 1fr; }
+    .timeline-content { padding: 12px 15px; } .modal { padding: 20px 15px; } .close-modal-btn { font-size: 1.8rem; top: 8px; right: 10px; }
+    .modal-content h4 { font-size: 1.3rem; } .modal-content #modal-subtitle { font-size: 0.9rem; } .modal-content #modal-description, .modal-content #modal-extra-info { font-size: 0.9rem; }
+    /* Adjust ALL hover elements */
+    .card-hover-overlay { padding: 15px; }
+    .project-overlay img { max-height: 40%; }
+    .cert-achieve-overlay { padding-top: 10px; gap: 5px; }
+    .cert-achieve-overlay .overlay-main-image { max-height: 50%; }
+    .cert-achieve-overlay .overlay-text-content { flex-direction: column; text-align: center; gap: 5px; }
+    .cert-achieve-overlay .overlay-logo { width: 28px; height: 28px; margin-bottom: 5px;}
+    .btn-overlay { padding: 6px 15px; font-size: 0.8rem; }
+    .timeline-content-overlay { padding: 10px; }
+    .timeline-content-overlay p.overlay-details { font-size: 0.75rem; }
+    .timeline-content-overlay p.overlay-desc { font-size: 0.7rem; }
+    .timeline-content-overlay .overlay-logo { width: 30px; height: 30px; margin-bottom: 8px; }
+}
