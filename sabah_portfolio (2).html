@@ -1,0 +1,1528 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>Sabah Muhamd — Security Analyst</title>
+  <link
+    href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:ital,wght@0,300;0,400;0,500;0,600;0,700;1,400&family=Inter:wght@300;400;500;600&display=swap"
+    rel="stylesheet" />
+  <style>
+    :root {
+      --bg: #0a0a0a;
+      --bg2: #111;
+      --bg3: #181818;
+      --bg4: #1e1e1e;
+      --border: #1f1f1f;
+      --border2: #2a2a2a;
+      --border3: #333;
+      --text: #ececec;
+      --text2: #888;
+      --text3: #555;
+      --cyan: #00e5ff;
+      --cyan-dim: rgba(0, 229, 255, .12);
+      --red: #ff4747;
+      --red-dim: rgba(255, 71, 71, .1);
+      --green: #00e87a;
+      --green-dim: rgba(0, 232, 122, .1);
+      --amber: #ffb300;
+      --amber-dim: rgba(255, 179, 0, .1);
+      --r: 10px;
+      --r2: 14px
+    }
+
+    [data-theme="light"] {
+      --bg: #f7f7f7;
+      --bg2: #fff;
+      --bg3: #f0f0f0;
+      --bg4: #e8e8e8;
+      --border: #e2e2e2;
+      --border2: #d0d0d0;
+      --border3: #bbb;
+      --text: #111;
+      --text2: #555;
+      --text3: #999;
+      --cyan: #0077cc;
+      --cyan-dim: rgba(0, 119, 204, .08);
+      --red: #c22;
+      --green: #118844;
+      --amber: #960
+    }
+
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box
+    }
+
+    html {
+      scroll-behavior: smooth
+    }
+
+    body {
+      background: var(--bg);
+      color: var(--text);
+      font-family: 'Inter', sans-serif;
+      font-size: 15px;
+      line-height: 1.7;
+      overflow-x: hidden
+    }
+
+    ::selection {
+      background: var(--cyan-dim);
+      color: var(--cyan)
+    }
+
+    ::-webkit-scrollbar {
+      width: 6px
+    }
+
+    ::-webkit-scrollbar-thumb {
+      background: var(--border2);
+      border-radius: 3px
+    }
+
+    ::-webkit-scrollbar-track {
+      background: var(--bg)
+    }
+
+    #nav {
+      position: fixed;
+      top: 0;
+      left: 0;
+      right: 0;
+      z-index: 900;
+      height: 60px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 0 2rem;
+      transition: all .3s
+    }
+
+    #nav.scrolled {
+      background: rgba(10, 10, 10, .85);
+      border-bottom: 1px solid var(--border);
+      backdrop-filter: blur(16px)
+    }
+
+    [data-theme="light"] #nav.scrolled {
+      background: rgba(247, 247, 247, .9)
+    }
+
+    .nav-logo {
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 14px;
+      color: var(--text);
+      text-decoration: none;
+      letter-spacing: -.02em;
+      font-weight: 500
+    }
+
+    .nav-logo em {
+      color: var(--cyan);
+      font-style: normal
+    }
+
+    .nav-links {
+      display: flex;
+      align-items: center;
+      gap: 4px;
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 12px
+    }
+
+    .nav-links a {
+      color: var(--text2);
+      text-decoration: none;
+      padding: 7px 14px;
+      border-radius: 6px;
+      transition: all .2s;
+      cursor: pointer
+    }
+
+    .nav-links a:hover {
+      color: var(--text);
+      background: var(--bg2)
+    }
+
+    .nav-links a.active {
+      color: var(--cyan);
+      background: var(--cyan-dim)
+    }
+
+    .nav-right {
+      display: flex;
+      align-items: center;
+      gap: 8px
+    }
+
+    .btn-nav {
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 11px;
+      padding: 7px 14px;
+      border-radius: 8px;
+      cursor: pointer;
+      border: 1px solid var(--border2);
+      background: transparent;
+      color: var(--text2);
+      transition: all .2s
+    }
+
+    .btn-nav:hover {
+      border-color: var(--text3);
+      color: var(--text)
+    }
+
+    .hero {
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      padding: 6rem 2.5rem 4rem;
+      max-width: 1000px;
+      margin: 0 auto
+    }
+
+    .hero-badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 11px;
+      color: var(--green);
+      border: 1px solid rgba(0, 232, 122, .25);
+      background: var(--green-dim);
+      padding: 4px 12px;
+      border-radius: 20px;
+      margin-bottom: 1.75rem;
+      width: fit-content
+    }
+
+    .hero h1 {
+      font-family: 'JetBrains Mono', monospace;
+      font-size: clamp(2.6rem, 7vw, 5rem);
+      font-weight: 500;
+      line-height: 1.05;
+      letter-spacing: -.03em;
+      margin-bottom: .75rem
+    }
+
+    .hero h2 {
+      font-family: 'JetBrains Mono', monospace;
+      font-size: clamp(1rem, 2vw, 1.3rem);
+      font-weight: 400;
+      color: var(--text2);
+      margin-bottom: 1.25rem
+    }
+
+    .hero p {
+      color: var(--text2);
+      max-width: 520px;
+      font-size: 15px;
+      margin-bottom: 2rem
+    }
+
+    .mode-switch {
+      display: flex;
+      gap: 10px;
+      margin-bottom: 2rem
+    }
+
+    .mode-switch button {
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 12px;
+      padding: 10px 22px;
+      border-radius: var(--r);
+      cursor: pointer;
+      font-weight: 500
+    }
+
+    #recruiterBtn {
+      background: var(--text);
+      color: var(--bg);
+      border: none
+    }
+
+    #recruiterBtn.active {
+      box-shadow: 0 0 0 2px var(--cyan)
+    }
+
+    #gameBtn {
+      background: transparent;
+      color: var(--cyan);
+      border: 1px solid rgba(0, 229, 255, .35)
+    }
+
+    #gameBtn.active {
+      background: var(--cyan-dim);
+      border-color: var(--cyan)
+    }
+
+    .stats {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 20px 36px;
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 13px;
+      color: var(--text2)
+    }
+
+    .stats div::before {
+      content: "▸ ";
+      color: var(--cyan)
+    }
+
+    .sec {
+      padding: 5rem 2.5rem;
+      max-width: 1000px;
+      margin: 0 auto;
+      border-top: 1px solid var(--border)
+    }
+
+    .ey {
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 11px;
+      color: var(--cyan);
+      margin-bottom: .75rem;
+      letter-spacing: .05em
+    }
+
+    .sec-title {
+      font-family: 'JetBrains Mono', monospace;
+      font-size: clamp(1.7rem, 4vw, 2.4rem);
+      font-weight: 500;
+      letter-spacing: -.02em;
+      margin-bottom: .75rem
+    }
+
+    .sec-sub {
+      color: var(--text2);
+      max-width: 560px;
+      margin-bottom: 2.75rem;
+      font-size: 14px
+    }
+
+    .about-wrap {
+      max-width: 680px
+    }
+
+    .about-lead {
+      font-size: 1.35rem;
+      line-height: 1.55;
+      font-weight: 300;
+      color: var(--text);
+      margin-bottom: 2.5rem;
+      letter-spacing: -.01em
+    }
+
+    .about-lead em {
+      color: var(--cyan);
+      font-style: normal
+    }
+
+    .about-meta {
+      display: grid;
+      grid-template-columns: 120px 1fr;
+      gap: .9rem 2rem;
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 12.5px;
+      padding-top: 1.5rem;
+      border-top: 1px solid var(--border)
+    }
+
+    .about-meta dt {
+      color: var(--text3)
+    }
+
+    .about-meta dd {
+      color: var(--text);
+      margin: 0
+    }
+
+    /* Skills section */
+    .skills-grid {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 8px;
+      margin-top: 1.5rem
+    }
+
+    .skill-tag {
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 11.5px;
+      color: var(--text2);
+      border: 1px solid var(--border);
+      padding: 4px 10px;
+      border-radius: 6px;
+      background: var(--bg2)
+    }
+
+    /* Education section */
+    .edu-list {
+      display: flex;
+      flex-direction: column;
+      gap: 1rem;
+      margin-top: .5rem
+    }
+
+    .edu-card {
+      background: var(--bg2);
+      border: 1px solid var(--border);
+      border-radius: var(--r2);
+      padding: 1.2rem 1.5rem
+    }
+
+    .edu-degree {
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 13px;
+      font-weight: 500
+    }
+
+    .edu-school {
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 11px;
+      color: var(--cyan);
+      margin: .3rem 0 .2rem
+    }
+
+    .edu-detail {
+      font-size: 12.5px;
+      color: var(--text2)
+    }
+
+    .locked-btn {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      padding: 11px 22px;
+      border-radius: 8px;
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 12px;
+      cursor: pointer;
+      background: var(--red-dim);
+      border: 1px solid rgba(255, 71, 71, .3);
+      color: var(--red)
+    }
+
+    .project-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 1.25rem
+    }
+
+    .pj-card {
+      background: var(--bg2);
+      border: 1px solid var(--border);
+      border-radius: var(--r2);
+      overflow: hidden;
+      transition: all .28s;
+      display: flex;
+      flex-direction: column
+    }
+
+    .pj-card:hover {
+      border-color: var(--border2);
+      transform: translateY(-3px)
+    }
+
+    .pj-img {
+      width: 100%;
+      height: 160px;
+      object-fit: cover;
+      display: block;
+      background: var(--bg3)
+    }
+
+    .pj-header {
+      padding: 1.1rem 1.2rem .5rem
+    }
+
+    .pj-title-row {
+      display: flex;
+      justify-content: space-between;
+      align-items: baseline;
+      margin-bottom: .4rem;
+      gap: .5rem
+    }
+
+    .pj-name {
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 14px;
+      font-weight: 500
+    }
+
+    .pj-category {
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 9.5px;
+      color: var(--cyan)
+    }
+
+    .pj-stack {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 4px;
+      padding: 0 1.2rem .6rem
+    }
+
+    .pj-tag {
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 9.5px;
+      color: var(--text2);
+      border: 1px solid var(--border);
+      padding: 2px 7px;
+      border-radius: 4px
+    }
+
+    .pj-body {
+      padding: 0 1.2rem 1.2rem;
+      font-size: 13px;
+      color: var(--text2);
+      flex: 1;
+      display: flex;
+      flex-direction: column
+    }
+
+    .pj-desc {
+      margin-bottom: .75rem;
+      flex: 1
+    }
+
+    .pj-btn {
+      padding: 9px;
+      border-radius: 8px;
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 11px;
+      cursor: pointer;
+      text-align: center;
+      display: block;
+      text-decoration: none;
+      margin-top: auto;
+      border: 1px solid var(--border);
+      background: transparent;
+      color: var(--text2)
+    }
+
+    .pj-btn.open {
+      background: var(--cyan-dim);
+      border-color: rgba(0, 229, 255, .3);
+      color: var(--cyan)
+    }
+
+    .pj-btn.solve {
+      background: var(--red-dim);
+      border-color: rgba(255, 71, 71, .3);
+      color: var(--red)
+    }
+
+    .blog-list {
+      display: flex;
+      flex-direction: column;
+      gap: 1rem
+    }
+
+    .blog-card {
+      background: var(--bg2);
+      border: 1px solid var(--border);
+      border-radius: var(--r2);
+      padding: 1.25rem 1.5rem;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      gap: 1rem;
+      transition: all .25s;
+      text-decoration: none;
+      color: inherit
+    }
+
+    .blog-card:hover {
+      border-color: var(--cyan);
+      transform: translateX(4px)
+    }
+
+    .blog-meta {
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 10.5px;
+      color: var(--cyan);
+      margin-bottom: .4rem
+    }
+
+    .blog-title {
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 15px;
+      font-weight: 500;
+      margin-bottom: .3rem
+    }
+
+    .blog-desc {
+      font-size: 13px;
+      color: var(--text2)
+    }
+
+    .blog-arrow {
+      font-family: 'JetBrains Mono', monospace;
+      color: var(--cyan);
+      font-size: 18px
+    }
+
+    .locked-blog {
+      filter: blur(3px);
+      pointer-events: none;
+      user-select: none
+    }
+
+    .cert-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(240px, 1fr));
+      gap: 1.25rem
+    }
+
+    .cert-card {
+      background: var(--bg2);
+      border: 1px solid var(--border);
+      border-radius: var(--r2);
+      overflow: hidden;
+      transition: all .25s;
+      text-decoration: none;
+      display: block;
+      color: inherit
+    }
+
+    .cert-card:hover {
+      border-color: var(--amber);
+      transform: translateY(-3px)
+    }
+
+    .cert-body {
+      padding: 1rem 1.2rem
+    }
+
+    .cert-name {
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 13px;
+      font-weight: 500;
+      margin-bottom: .25rem
+    }
+
+    .cert-issuer {
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 10.5px;
+      color: var(--cyan)
+    }
+
+    .cert-date {
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 10px;
+      color: var(--text3);
+      margin-top: .4rem
+    }
+
+    .cert-icon {
+      width: 100%;
+      height: 100px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      background: var(--bg3);
+      font-size: 2.5rem
+    }
+
+    .resume-card {
+      background: var(--bg2);
+      border: 1px solid var(--border);
+      border-radius: var(--r2);
+      padding: 1.75rem 2rem;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      flex-wrap: wrap;
+      gap: 1rem
+    }
+
+    .resume-title {
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 16px;
+      font-weight: 500
+    }
+
+    .resume-meta {
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 11px;
+      color: var(--text3);
+      margin-top: 4px
+    }
+
+    .resume-dl {
+      background: var(--cyan);
+      color: #000;
+      border: none;
+      border-radius: 8px;
+      padding: 11px 22px;
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 12px;
+      font-weight: 600;
+      cursor: pointer;
+      text-decoration: none;
+      display: inline-block
+    }
+
+    .contact-center {
+      text-align: center;
+      max-width: 520px;
+      margin: 0 auto
+    }
+
+    .social-row {
+      display: flex;
+      justify-content: center;
+      gap: 10px;
+      flex-wrap: wrap;
+      margin-top: 1.5rem
+    }
+
+    .social-btn {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      padding: 10px 18px;
+      border: 1px solid var(--border);
+      border-radius: 8px;
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 11.5px;
+      color: var(--text2);
+      text-decoration: none;
+      transition: all .2s
+    }
+
+    .social-btn:hover {
+      border-color: var(--cyan);
+      color: var(--cyan)
+    }
+
+    footer {
+      border-top: 1px solid var(--border);
+      padding: 1.5rem 2.5rem;
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 10.5px;
+      color: var(--text3);
+      display: flex;
+      justify-content: space-between;
+      max-width: 1000px;
+      margin: 0 auto;
+      flex-wrap: wrap;
+      gap: .5rem
+    }
+
+    .overlay {
+      position: fixed;
+      inset: 0;
+      z-index: 1000;
+      background: rgba(0, 0, 0, .82);
+      display: none;
+      align-items: center;
+      justify-content: center;
+      padding: 1.25rem;
+      backdrop-filter: blur(6px)
+    }
+
+    .overlay.on {
+      display: flex
+    }
+
+    .modal {
+      background: var(--bg2);
+      border: 1px solid var(--border2);
+      border-radius: var(--r2);
+      padding: 2rem;
+      width: 100%;
+      max-width: 500px;
+      position: relative;
+      font-family: 'JetBrains Mono', monospace;
+      max-height: 90vh;
+      overflow-y: auto
+    }
+
+    .modal-x {
+      position: absolute;
+      top: 1rem;
+      right: 1rem;
+      background: transparent;
+      border: none;
+      color: var(--text3);
+      font-size: 18px;
+      cursor: pointer
+    }
+
+    .m-tag {
+      display: inline-block;
+      font-size: 10px;
+      color: var(--cyan);
+      border: 1px solid rgba(0, 229, 255, .3);
+      background: var(--cyan-dim);
+      padding: 3px 9px;
+      border-radius: 4px;
+      margin-bottom: .75rem
+    }
+
+    .m-title {
+      font-size: 16px;
+      font-weight: 600;
+      margin-bottom: .5rem
+    }
+
+    .m-desc {
+      font-size: 12px;
+      color: var(--text2);
+      line-height: 1.7;
+      margin-bottom: 1rem
+    }
+
+    .m-code {
+      background: var(--bg3);
+      border: 1px solid var(--border);
+      border-radius: 8px;
+      padding: 1rem 1.1rem;
+      font-size: 12px;
+      color: var(--green);
+      line-height: 1.9;
+      white-space: pre-wrap;
+      margin-bottom: 1rem
+    }
+
+    .m-input {
+      width: 100%;
+      background: var(--bg3);
+      border: 1px solid var(--border);
+      border-radius: 8px;
+      padding: 10px 14px;
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 12px;
+      color: var(--text);
+      outline: none;
+      margin-bottom: .6rem
+    }
+
+    .m-input:focus {
+      border-color: var(--cyan)
+    }
+
+    .m-row {
+      display: flex;
+      gap: 8px;
+      flex-wrap: wrap
+    }
+
+    .m-submit {
+      background: var(--cyan);
+      color: #000;
+      border: none;
+      border-radius: 8px;
+      padding: 10px 18px;
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 12px;
+      font-weight: 600;
+      cursor: pointer;
+      flex: 1;
+      min-width: 90px
+    }
+
+    .m-hint-btn,
+    .m-reveal-btn {
+      background: transparent;
+      border: 1px solid var(--border2);
+      border-radius: 8px;
+      padding: 10px 14px;
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 11px;
+      cursor: pointer
+    }
+
+    .m-hint-btn {
+      color: var(--amber);
+      border-color: rgba(255, 179, 0, .3)
+    }
+
+    .m-reveal-btn {
+      color: var(--green);
+      border-color: rgba(0, 232, 122, .3)
+    }
+
+    .m-hint,
+    .m-reveal {
+      display: none;
+      margin-top: .75rem;
+      border-radius: 8px;
+      padding: .9rem 1rem;
+      font-size: 11.5px
+    }
+
+    .m-hint {
+      background: var(--amber-dim);
+      border: 1px solid rgba(255, 179, 0, .25);
+      color: var(--amber)
+    }
+
+    .m-reveal {
+      background: var(--green-dim);
+      border: 1px solid rgba(0, 232, 122, .25);
+      color: var(--green);
+      word-break: break-all
+    }
+
+    .m-hint.on,
+    .m-reveal.on {
+      display: block
+    }
+
+    .m-err {
+      display: none;
+      font-size: 11.5px;
+      color: var(--red);
+      margin-top: .5rem
+    }
+
+    .m-err.on {
+      display: block
+    }
+
+    .m-success {
+      display: none;
+      text-align: center;
+      padding: 1rem 0
+    }
+
+    .m-success.on {
+      display: block
+    }
+
+    .flag-label {
+      font-size: 1.5rem;
+      font-weight: 700;
+      color: var(--green);
+      margin-bottom: .4rem
+    }
+
+    .rv {
+      opacity: 0;
+      transform: translateY(18px);
+      transition: opacity .5s, transform .5s
+    }
+
+    .rv.in {
+      opacity: 1;
+      transform: none
+    }
+
+    @media(max-width:768px) {
+      #nav {
+        padding: 0 1rem
+      }
+
+      .nav-links {
+        display: none
+      }
+
+      .hero {
+        padding: 5rem 1.5rem 3rem
+      }
+
+      .sec {
+        padding: 3.5rem 1.5rem
+      }
+
+      .project-grid {
+        grid-template-columns: 1fr
+      }
+
+      .about-meta {
+        grid-template-columns: 1fr;
+        gap: .4rem 0
+      }
+
+      .about-meta dt {
+        margin-top: .6rem
+      }
+    }
+  </style>
+</head>
+
+<body>
+
+  <nav id="nav">
+    <a href="#top" class="nav-logo" data-nav>sabah<em>.sh</em></a>
+    <div class="nav-links">
+      <a data-nav href="#about">About</a>
+      <a data-nav href="#projects">Projects</a>
+      <a data-nav href="#blog">Writeup-Blog</a>
+      <a data-nav href="#certificates">Certificates</a>
+      <a data-nav href="#achievements">Achievements</a>
+      <a data-nav href="#resume">Resume</a>
+      <a data-nav href="#contact">Contact</a>
+    </div>
+    <div class="nav-right">
+      <button id="themeBtn" class="btn-nav" onclick="toggleTheme()">🌙 Dark</button>
+    </div>
+  </nav>
+
+  <section class="hero" id="top">
+    <div class="hero-badge">🟢 Open To Work</div>
+    <h1>Sabah Muhamd</h1>
+    <h2>Security Analyst • SOC Analyst • AppSec Enthusiast</h2>
+    <p>Building secure systems. Breaking insecure ones. Focused on web security, threat detection, and defensive
+      engineering — from Kerala to the cloud.</p>
+    <div class="mode-switch">
+      <button id="recruiterBtn" class="active" onclick="setMode('recruiter')">👔 Recruiter Mode</button>
+      <button id="gameBtn" onclick="setMode('game')">⚔ Game Mode</button>
+    </div>
+    <div class="stats">
+      <div>5+ Projects</div>
+      <div>SOC Lab Builds</div>
+      <div>100+ THM Rooms</div>
+      <div>4 Certifications</div>
+    </div>
+  </section>
+
+  <section class="sec" id="about">
+    <div class="ey">// 01 — about</div>
+    <div class="about-wrap">
+      <p class="about-lead">
+        I'm a final-year CSE student and security analyst focused on <em>web app security</em>, <em>threat
+          detection</em>, and <em>defensive engineering</em> — building systems that hold up, and breaking the ones that
+        don't.
+      </p>
+      <dl class="about-meta">
+        <dt>Based</dt>
+        <dd>Malappuram, Kerala · Remote</dd>
+        <dt>Focus</dt>
+        <dd>SOC · AppSec · DFIR</dd>
+        <dt>Stack</dt>
+        <dd>Python · React · Wazuh · Flask · Burp</dd>
+        <dt>Education</dt>
+        <dd>B.Tech CSE — Lovely Professional University (CGPA: 7.08)</dd>
+        <dt>Status</dt>
+        <dd style="color:var(--green)">Open to work · +91-8589014911</dd>
+      </dl>
+
+      <div style="margin-top:2rem">
+        <div class="ey" style="margin-bottom:.5rem">// skills</div>
+        <div class="skills-grid">
+          <span class="skill-tag">Python</span>
+          <span class="skill-tag">Java</span>
+          <span class="skill-tag">JavaScript</span>
+          <span class="skill-tag">React.js</span>
+          <span class="skill-tag">Node.js</span>
+          <span class="skill-tag">Flask</span>
+          <span class="skill-tag">REST APIs</span>
+          <span class="skill-tag">Docker</span>
+          <span class="skill-tag">Wazuh</span>
+          <span class="skill-tag">Wireshark</span>
+          <span class="skill-tag">SIEM Monitoring</span>
+          <span class="skill-tag">Threat Detection</span>
+          <span class="skill-tag">Phishing Analysis</span>
+          <span class="skill-tag">Linux</span>
+          <span class="skill-tag">MongoDB</span>
+          <span class="skill-tag">MySQL</span>
+          <span class="skill-tag">PostgreSQL</span>
+          <span class="skill-tag">Git</span>
+          <span class="skill-tag">GitHub</span>
+          <span class="skill-tag">Scikit-learn</span>
+          <span class="skill-tag">ELK Stack</span>
+        </div>
+      </div>
+
+      <div style="margin-top:2rem">
+        <div class="ey" style="margin-bottom:.75rem">// education</div>
+        <div class="edu-list">
+          <div class="edu-card rv">
+            <div class="edu-degree">Bachelor of Technology — Computer Science &amp; Engineering</div>
+            <div class="edu-school">Lovely Professional University, Phagwara, Punjab</div>
+            <div class="edu-detail">CGPA: 7.08 &nbsp;·&nbsp; 2022 – 2026</div>
+          </div>
+          <div class="edu-card rv">
+            <div class="edu-degree">Intermediate (PCM)</div>
+            <div class="edu-school">AR Nagar Higher Secondary School, Malappuram</div>
+            <div class="edu-detail">91% &nbsp;·&nbsp; 2020 – 2022</div>
+          </div>
+          <div class="edu-card rv">
+            <div class="edu-degree">Matriculation</div>
+            <div class="edu-school">NEMHSS Chemmad, Malappuram</div>
+            <div class="edu-detail">100% &nbsp;·&nbsp; 2019 – 2020</div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="sec" id="projects">
+    <div class="ey">// 02 — projects</div>
+    <h2 class="sec-title">What I've built.</h2>
+    <p class="sec-sub">Recruiter Mode = all visible. Game Mode = solve a quick challenge to unlock the repo link.</p>
+    <div class="project-grid" id="projectGrid"></div>
+  </section>
+
+  <section class="sec" id="blog">
+    <div class="ey">// 03 — writeups</div>
+    <h2 class="sec-title">Blog &amp; Writeups.</h2>
+    <p class="sec-sub">Security research and real-world investigations published on Medium.</p>
+    <div class="blog-list" id="blogList"></div>
+  </section>
+
+  <section class="sec" id="certificates">
+    <div class="ey">// 04 — certifications</div>
+    <h2 class="sec-title">Credentials.</h2>
+    <p class="sec-sub">Industry certifications and completed training paths.</p>
+    <div class="cert-grid" id="certGrid"></div>
+  </section>
+
+  <section class="sec" id="achievements">
+    <div class="ey">// 05 — achievements</div>
+    <h2 class="sec-title">Experience &amp; Achievements.</h2>
+    <p class="sec-sub">Internships, CTF competitions, and notable recognitions.</p>
+    <div id="achievementsContent"></div>
+  </section>
+
+  <section class="sec" id="resume">
+    <div class="ey">// 06 — resume</div>
+    <h2 class="sec-title">Download my CV.</h2>
+    <p class="sec-sub">Updated June 2026 — includes full project details and certifications.</p>
+    <div id="resumeContent"></div>
+  </section>
+
+  <section class="sec" id="contact">
+    <div class="contact-center">
+      <div class="ey">// 07 — contact</div>
+      <h2 class="sec-title">Let's connect.</h2>
+      <div id="contactContent"></div>
+    </div>
+  </section>
+
+  <footer>
+    <span>© 2026 Sabah Muhamd</span>
+    <span>$ echo "built with ☕ and 🖤"</span>
+  </footer>
+
+  <div class="overlay" id="overlay">
+    <div class="modal">
+      <button class="modal-x" onclick="closeModal()">✕</button>
+      <div class="m-tag" id="mTag"></div>
+      <div class="m-title" id="mTitle"></div>
+      <div class="m-desc" id="mDesc"></div>
+      <pre class="m-code" id="mCode"></pre>
+      <div id="mPuzzleForm">
+        <input class="m-input" id="mInput" placeholder="Enter your answer..." autocomplete="off" />
+        <div class="m-row">
+          <button class="m-submit" onclick="checkModalAnswer()">Submit</button>
+          <button class="m-hint-btn" onclick="toggleModalHint()">💡 Hint</button>
+          <button class="m-reveal-btn" onclick="revealModalAnswer()">👁 Reveal</button>
+        </div>
+        <div class="m-hint" id="mHint"></div>
+        <div class="m-reveal" id="mReveal"></div>
+        <div class="m-err" id="mErr"></div>
+      </div>
+      <div class="m-success" id="mSuccess">
+        <div class="flag-label">🏁 FLAG CAPTURED</div>
+        <div style="font-size:12px;color:var(--text2);margin-top:.5rem">The project link is now unlocked!</div>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    let gameMode = false;
+    let theme = 'dark';
+    let unlocked = JSON.parse(localStorage.getItem('unlocked') || '{}');
+    function saveUnlocked() { localStorage.setItem('unlocked', JSON.stringify(unlocked)); }
+
+    function setMode(m) {
+      gameMode = (m === 'game');
+      document.getElementById('recruiterBtn').classList.toggle('active', !gameMode);
+      document.getElementById('gameBtn').classList.toggle('active', gameMode);
+      renderProjects();
+      renderBlog();
+      renderResume();
+      renderContact();
+    }
+
+    const gates = {
+      blog: { challenge: 'b64', label: 'Writeups' },
+      resume: { challenge: 'caesar', label: 'Resume PDF' },
+      contact: { challenge: 'jwt', label: 'Contact info' }
+    };
+
+    const projects = [
+      {
+        id: 'phishy',
+        title: 'Phishy Shield',
+        category: 'Browser Security',
+        tech: ['JavaScript', 'Chrome Extensions API', 'Gmail Integration', 'HTML', 'CSS'],
+        desc: 'Chrome extension for phishing detection within Gmail. Analyzes email content and sender info to flag suspicious messages in real-time.',
+        url: 'https://github.com/SabahMuhamed/Phishy',
+        challenge: 'xss',
+        img: 'images/PhishySheild.png'
+      },
+      {
+        id: 'nephro',
+        title: 'Nephro-AI CKD Prediction',
+        category: 'ML / Healthcare',
+        tech: ['React', 'Flask', 'Machine Learning', 'PostgreSQL', 'Supabase', 'Python', 'Scikit-learn'],
+        desc: 'AI-powered platform for early Chronic Kidney Disease detection. Analyzes patient lab data with ML models to generate real-time risk assessments.',
+        url: 'https://nephro-ai-jade.vercel.app',
+        challenge: 'logs',
+        img: 'images/nephroAI.png'
+      },
+      {
+        id: 'siem',
+        title: 'Automated SIEM Lab',
+        category: 'Detection / SOC',
+        tech: ['Python', 'Wazuh', 'ELK Stack', 'Linux', 'REST APIs'],
+        desc: 'SOC simulation platform using Wazuh + ELK. Centralized log management, custom correlation rules, and automated threat analysis workflows.',
+        url: '#',
+        challenge: 'sqli',
+        img: 'images/wazuhlab.png'
+      },
+      {
+        id: 'feedflow',
+        title: 'FeedFlow',
+        category: 'Mobile App',
+        tech: ['React Native', 'Expo', 'JavaScript', 'Supabase', 'REST APIs'],
+        desc: 'Automated content personalization platform. Onboarding workflows, interest-based feed optimization, and analytics dashboards for engagement metrics.',
+        url: 'https://drive.google.com/drive/folders/1xQXnUedez_KQsSAoQM3dE1ROAFk4WckT?usp=drive_link',
+        challenge: 'b64',
+        img: 'images/Feedflow.png'
+      },
+      {
+        id: 'safeline',
+        title: 'SafeLine WAF + DVWA Lab',
+        category: 'Web Security',
+        tech: ['Docker', 'SafeLine WAF', 'DVWA', 'Burp Suite'],
+        desc: 'Home lab for testing WAF rules against DVWA vulnerabilities — covering SQLi, XSS, CSRF, file upload, and command injection scenarios.',
+        url: 'https://medium.com/@sabahmv0770/building-a-home-lab-to-test-web-application-security-with-safeline-waf-and-dvwa-d117354bf3a2',
+        challenge: 'caesar',
+        img: 'images/WAFandDVWA.png'
+      }
+    ];
+
+    const challengeDefs = {
+      sqli: { name: 'SQL Injection', desc: 'Bypass login: SELECT * FROM users WHERE name=? AND pass=?', answer: "' or '1'='1", hint: "Use a quote to break out, then make the condition always true.", code: "SELECT * FROM users WHERE name='[INPUT]' AND pass='x'" },
+      xss: { name: 'Reflected XSS', desc: 'Trigger an alert(1). What payload?', answer: '<scr' + 'ipt>alert(1)</scr' + 'ipt>', hint: 'Classic script tag that calls alert(1).', code: '<p>Hello, [INPUT]!</p>' },
+      b64: { name: 'Base64 Decode', desc: 'Decode: aHR0cHM6Ly9naXRodWIuY29t', answer: 'https://github.com', hint: "Run atob('aHR0cHM6Ly9naXRodWIuY29t') in DevTools.", code: 'Input: aHR0cHM6Ly9naXRodWIuY29t' },
+      logs: { name: 'Log Analysis', desc: 'Which IP is suspicious?', answer: '185.74.23.12', hint: 'Look for /etc/passwd access in the log lines.', code: '[2026-06-20] 185.74.23.12 - GET /etc/passwd\n[2026-06-20] 10.0.0.5   - GET /index.html' },
+      jwt: { name: 'JWT Exploit', desc: 'What role claim value gives admin access?', answer: 'admin', hint: 'The role field accepts user-supplied values.', code: 'payload: {"user":"guest","role":"[?]"}' },
+      caesar: { name: 'Caesar Cipher', desc: 'Decrypt (shift 3): khoor', answer: 'hello', hint: 'Shift each letter back by 3 positions.', code: 'ciphertext: khoor' }
+    };
+
+    function renderProjects() {
+      const grid = document.getElementById('projectGrid');
+      grid.innerHTML = '';
+      projects.forEach(p => {
+        const isUnlocked = gameMode ? !!unlocked[p.id] : true;
+        const card = document.createElement('div');
+        card.className = 'pj-card rv';
+        let btnHTML;
+        if (!gameMode) btnHTML = '<a class="pj-btn open" href="' + p.url + '" target="_blank" rel="noopener">View Project →</a>';
+        else if (!isUnlocked) btnHTML = '<button class="pj-btn solve" onclick="openChallengeModal(\'' + p.id + '\')">🔐 Solve to unlock →</button>';
+        else btnHTML = '<a class="pj-btn open" href="' + p.url + '" target="_blank" rel="noopener">✅ Unlocked — Open →</a>';
+
+        card.innerHTML = `
+      <img class="pj-img" src="${p.img}" alt="${p.title}" loading="lazy" />
+      <div class="pj-header">
+        <div class="pj-title-row"><div class="pj-name">${p.title}</div><div class="pj-category">${p.category}</div></div>
+      </div>
+      <div class="pj-stack">${p.tech.map(t => `<span class="pj-tag">${t}</span>`).join('')}</div>
+      <div class="pj-body"><div class="pj-desc">${p.desc}</div>${btnHTML}</div>`;
+        grid.appendChild(card);
+      });
+      observe();
+    }
+
+    const blogPosts = [
+      {
+        date: '2025',
+        title: 'Building a Home Lab to Test Web Application Security with SafeLine WAF and DVWA',
+        desc: 'Setting up a Docker-based home lab to test WAF rules against real DVWA vulnerabilities.',
+        url: 'https://medium.com/@sabahmv0770/building-a-home-lab-to-test-web-application-security-with-safeline-waf-and-dvwa-d117354bf3a2'
+      },
+      {
+        date: '2025',
+        title: 'Phishing Email Analysis: Investigating a Suspicious Microsoft Sign-In Alert',
+        desc: 'Deep dive into a realistic phishing email impersonating Microsoft, with full header and link analysis.',
+        url: 'https://medium.com/@sabahmv0770/phishing-email-analysis-investigating-a-suspicious-microsoft-sign-in-alert-f67591d73466'
+      }
+    ];
+
+    function renderBlog() {
+      const list = document.getElementById('blogList');
+      list.innerHTML = '';
+      const locked = gameMode && !unlocked['blog'];
+      blogPosts.forEach(b => {
+        const a = document.createElement(locked ? 'div' : 'a');
+        a.className = 'blog-card rv' + (locked ? ' locked-blog' : '');
+        if (!locked) { a.href = b.url; a.target = '_blank'; a.rel = 'noopener'; }
+        a.innerHTML = `<div><div class="blog-meta">${locked ? '████' : b.date} · Medium</div><div class="blog-title">${locked ? '████████████ ███████' : b.title}</div><div class="blog-desc">${locked ? '███████████████████████████████████.' : b.desc}</div></div><div class="blog-arrow">${locked ? '🔒' : '→'}</div>`;
+        list.appendChild(a);
+      });
+      if (locked) {
+        const cta = document.createElement('button');
+        cta.className = 'locked-btn';
+        cta.style.marginTop = '1rem';
+        cta.innerHTML = '🔐 Solve challenge to read writeups';
+        cta.onclick = () => openGateModal('blog');
+        list.appendChild(cta);
+      }
+      observe();
+    }
+
+    function renderResume() {
+      const box = document.getElementById('resumeContent');
+
+      if (gameMode && !unlocked['resume']) {
+        box.innerHTML = `
+    <div class="resume-card rv">
+      <div>
+        <div class="resume-title">🔒 ██████_██████_Resume.pdf</div>
+        <div class="resume-meta">Locked · solve to download</div>
+      </div>
+      <button class="locked-btn" onclick="openGateModal('resume')">
+        🔐 Solve to unlock
+      </button>
+    </div>`;
+      } else {
+        box.innerHTML = `
+    <div class="resume-card rv">
+      <div>
+        <div class="resume-title">📄 Sabah_Muhamd_Resume.pdf</div>
+        <div class="resume-meta">
+          Updated: June 2026 · B.Tech CSE · Security Analyst
+        </div>
+      </div>
+
+      <a class="resume-dl"
+         href="resume/Sabah_resume.pdf"
+         target="_blank"
+         download>
+         ⬇ Download CV
+      </a>
+    </div>`;
+      }
+
+      observe();
+    }
+
+    function renderContact() {
+      const box = document.getElementById('contactContent');
+      if (gameMode && !unlocked['contact']) {
+        box.innerHTML = `<p class="sec-sub" style="margin:0 auto 1.25rem">🔒 Contact details are encrypted. Crack the challenge to reveal.</p>
+      <button class="locked-btn" onclick="openGateModal('contact')">🔐 Solve to reveal contact</button>`;
+      } else {
+        box.innerHTML = `<p class="sec-sub" style="margin:0 auto 1rem">sabahmv0770@gmail.com · +91-8589014911 · Malappuram, Kerala</p>
+      <div class="social-row">
+        <a class="social-btn" href="mailto:sabahmv0770@gmail.com">✉ Email</a>
+        <a class="social-btn" href="https://github.com/SabahMuhamed" target="_blank" rel="noopener">⌥ GitHub</a>
+        <a class="social-btn" href="https://linkedin.com/in/muhamedsabah" target="_blank" rel="noopener">in LinkedIn</a>
+      </div>`;
+      }
+    }
+
+    const certs = [
+      { name: 'Cyber Incident Response Specialization', issuer: 'Infosec · Coursera', date: 'Dec 2024', url: 'https://coursera.org/verify/specialization/5KETELAYUWWX', icon: '🚨' },
+      { name: 'Digital Forensics Essentials (DFE)', issuer: 'EC-Council · Coursera', date: 'Nov 2024', url: 'https://coursera.org/verify/6HZ7G7BKEW4P', icon: '🔍' },
+      { name: 'Ethical Hacking Essentials (EHE)', issuer: 'EC-Council · Coursera', date: 'Nov 2024', url: 'https://coursera.org/verify/CKKRG19N4N4T', icon: '🎯' },
+      { name: 'Introduction to Cybersecurity Essentials', issuer: 'IBM · Coursera', date: 'Apr 2024', url: 'https://coursera.org/verify/GBW58QUFXBL3', icon: '🛡️' },
+      { name: 'SAP Certified Data Analyst — SAP Analytics Cloud', issuer: 'SAP · Credly', date: 'Mar 2026', url: 'https://www.credly.com/badges/a8877c0f-5f8a-4e1e-8c18-a24d9c5e7a56', icon: '📊' },
+      { name: 'Agile Project Management', issuer: 'University of Colorado Boulder · Coursera', date: 'May 2026', url: 'https://coursera.org/verify/89Y2MUTMEH3R', icon: '⚡' },
+      { name: 'Dynamic Programming, Greedy Algorithms', issuer: 'University of Colorado Boulder · Coursera', date: 'Apr 2024', url: 'https://coursera.org/verify/LX3D92D99YL2', icon: '🧮' },
+      { name: 'Generative AI with Large Language Models', issuer: 'DeepLearning.AI · AWS · Coursera', date: 'Jan 2024', url: 'https://coursera.org/verify/ZRGA7DW8M2MX', icon: '🤖' },
+      { name: 'Cloud Computing', issuer: 'CipherSchools', date: 'Feb 2025', url: '#', icon: '☁️' },
+      { name: 'Cloud Computing', issuer: 'NPTEL', date: '2025', url: 'https://archive.nptel.ac.in/content/noc/NOC25/SEM1/Ecertificates/106/noc25-cs11/Course/NPTEL25CS11S94750004304241855.pdf', icon: '☁️' },
+      { name: 'CompTIA Linux+ XKO-005', issuer: 'Cybrary', date: '2024', url: 'https://app.cybrary.it/profile/MohamedSabah?tab=cert-completion&cert=CC-6e484a8b-56ed-4140-9cdd-7545e13c5005', icon: '🐧' },
+      { name: 'Mastering Data Structures & Algorithms (C/C++)', issuer: 'Udemy', date: '2023', url: 'https://www.udemy.com/certificate/UC-3225bf4b-d1e2-4fab-aaaa-cb03fd793de3/', icon: '📚' }
+    ];
+
+    function renderCerts() {
+      const grid = document.getElementById('certGrid');
+      grid.innerHTML = '';
+      certs.forEach(c => {
+        const a = document.createElement('a');
+        a.className = 'cert-card rv';
+        a.href = c.url;
+        a.target = '_blank';
+        a.rel = 'noopener';
+        a.innerHTML = `<div class="cert-icon">${c.icon}</div>
+      <div class="cert-body">
+        <div class="cert-name">${c.name}</div>
+        <div class="cert-issuer">${c.issuer}</div>
+        <div class="cert-date">Issued ${c.date} · Click to verify ↗</div>
+      </div>`;
+        grid.appendChild(a);
+      });
+      observe();
+    }
+
+    const achievements = [
+      {
+        type: 'internship',
+        icon: '💼',
+        color: 'var(--cyan)',
+        title: 'Cyber Security Internship — Best Performer ⭐',
+        org: 'Elevate Labs · Skill India / MSME Govt. of India',
+        date: 'Aug 2025 – Sep 2025',
+        desc: 'Completed real-world cybersecurity tasks over 47 days. Recognised as Best Performer by the organisation.',
+        certUrl: 'achievements/ElevateLab.pdf'
+      },
+      {
+        type: 'internship',
+        icon: '💳',
+        color: 'var(--amber)',
+        title: 'Cybersecurity Job Simulation',
+        org: 'Mastercard · Forage',
+        date: 'Aug 2025',
+        desc: 'Designed and interpreted phishing email simulations as part of Mastercard\'s cybersecurity awareness program via the New York Jobs CEO Council.',
+        certUrl: 'achievements/MasterCard.pdf'
+      },
+      {
+        type: 'ctf',
+        icon: '🏁',
+        color: 'var(--green)',
+        title: 'Cyber Fest 2024 CTF — Certificate of Achievement',
+        org: 'OASIS (LPU) × CyberYami × QuickHeal × AntiFraud.AI',
+        date: 'Nov 12–14, 2024',
+        desc: 'Participated in a 2-day bootcamp and 24-hour CTF at LPU. Pledged on Cyber Awareness Day with AntiFraud.AI. Unique ID: CF2024/053',
+        certUrl: 'achievements/cyberfest.pdf'
+      },
+      {
+        type: 'ctf',
+        icon: '🎖️',
+        color: 'var(--green)',
+        title: 'Cyber Fest 2024 — Certificate of Participation',
+        org: 'CyberYami × OASIS, LPU',
+        date: 'Nov 14, 2024',
+        desc: 'Participated in the Cyber Fest 2024 CTF under the division of Youth Affairs, SWW, Lovely Professional University. Certificate ID: CF2024/C/053',
+        certUrl: 'achievements/quickheal.pdf'
+      }
+    ];
+
+    function renderAchievements() {
+      const box = document.getElementById('achievementsContent');
+      if (!box) return;
+      box.innerHTML = '';
+      const wrap = document.createElement('div');
+      wrap.style.cssText = 'display:flex;flex-direction:column;gap:1rem;';
+      achievements.forEach(a => {
+        const card = document.createElement('div');
+        card.className = 'rv';
+        card.style.cssText = `background:var(--bg2);border:1px solid var(--border);border-left:3px solid ${a.color};border-radius:var(--r2);padding:1.25rem 1.5rem;display:flex;gap:1rem;align-items:flex-start;`;
+        card.innerHTML = `
+      <div style="font-size:1.6rem;flex-shrink:0;margin-top:2px">${a.icon}</div>
+      <div style="flex:1">
+        <div style="display:flex;justify-content:space-between;align-items:baseline;flex-wrap:wrap;gap:.25rem .75rem;margin-bottom:.3rem">
+          <div style="font-family:'JetBrains Mono',monospace;font-size:13.5px;font-weight:500">${a.title}</div>
+          <div style="font-family:'JetBrains Mono',monospace;font-size:10px;color:var(--text3);white-space:nowrap">${a.date}</div>
+        </div>
+        <div style="font-family:'JetBrains Mono',monospace;font-size:11px;color:${a.color};margin-bottom:.4rem">${a.org}</div>
+        <div style="font-size:13px;color:var(--text2);margin-bottom:.75rem">${a.desc}</div>
+        <a href="${a.certUrl}" target="_blank" rel="noopener" style="display:inline-flex;align-items:center;gap:6px;font-family:'JetBrains Mono',monospace;font-size:11px;color:${a.color};border:1px solid ${a.color};padding:5px 12px;border-radius:6px;text-decoration:none;opacity:.85;transition:opacity .2s" onmouseover="this.style.opacity=1" onmouseout="this.style.opacity=.85">📄 View Certificate ↗</a>
+      </div>`;
+        wrap.appendChild(card);
+      });
+      box.appendChild(wrap);
+      observe();
+    }
+
+    let currentChallenge = null;
+    function openChallengeFor(c, unlockKey) {
+      currentChallenge = { unlockKey, def: c };
+      document.getElementById('mTag').textContent = '// CHALLENGE — ' + c.name.toUpperCase();
+      document.getElementById('mTitle').textContent = c.name;
+      document.getElementById('mDesc').textContent = c.desc;
+      document.getElementById('mCode').textContent = c.code;
+      document.getElementById('mHint').textContent = '💡 ' + c.hint;
+      document.getElementById('mReveal').textContent = '👁 Answer: ' + c.answer;
+      document.getElementById('mHint').classList.remove('on');
+      document.getElementById('mReveal').classList.remove('on');
+      document.getElementById('mInput').value = '';
+      document.getElementById('mErr').classList.remove('on');
+      document.getElementById('mSuccess').classList.remove('on');
+      document.getElementById('mPuzzleForm').style.display = 'block';
+      document.getElementById('overlay').classList.add('on');
+    }
+    function openChallengeModal(projectId) {
+      const p = projects.find(x => x.id === projectId);
+      if (!p || !p.challenge) return;
+      const c = challengeDefs[p.challenge]; if (!c) return;
+      openChallengeFor(c, projectId);
+    }
+    function openGateModal(gateId) {
+      const g = gates[gateId]; if (!g) return;
+      const c = challengeDefs[g.challenge]; if (!c) return;
+      openChallengeFor(c, gateId);
+    }
+    function closeModal() { document.getElementById('overlay').classList.remove('on'); currentChallenge = null; }
+    function checkModalAnswer() {
+      if (!currentChallenge) return;
+      const val = document.getElementById('mInput').value.trim().toLowerCase();
+      const ans = currentChallenge.def.answer.toLowerCase();
+      if (val === ans) {
+        unlocked[currentChallenge.unlockKey] = true; saveUnlocked();
+        document.getElementById('mPuzzleForm').style.display = 'none';
+        document.getElementById('mSuccess').classList.add('on');
+        renderProjects(); renderBlog(); renderResume(); renderContact();
+      } else {
+        const e = document.getElementById('mErr'); e.textContent = '❌ Wrong answer — try again'; e.classList.add('on');
+      }
+    }
+    function toggleModalHint() { document.getElementById('mHint').classList.toggle('on'); }
+    function revealModalAnswer() {
+      document.getElementById('mReveal').classList.add('on');
+      if (currentChallenge) { document.getElementById('mInput').value = currentChallenge.def.answer; }
+    }
+    document.getElementById('mInput').addEventListener('keydown', e => { if (e.key === 'Enter') checkModalAnswer(); });
+    document.getElementById('overlay').addEventListener('click', e => { if (e.target.id === 'overlay') closeModal(); });
+
+    function toggleTheme() {
+      theme = theme === 'dark' ? 'light' : 'dark';
+      document.documentElement.setAttribute('data-theme', theme === 'light' ? 'light' : '');
+      document.getElementById('themeBtn').textContent = theme === 'dark' ? '🌙 Dark' : '☀️ Light';
+    }
+
+    function observe() {
+      const io = new IntersectionObserver(entries => {
+        entries.forEach(e => { if (e.isIntersecting) { e.target.classList.add('in'); io.unobserve(e.target); } });
+      }, { threshold: .1, rootMargin: '0px 0px -24px 0px' });
+      document.querySelectorAll('.rv:not(.in)').forEach(el => io.observe(el));
+    }
+
+    document.querySelectorAll('[data-nav]').forEach(link => {
+      link.addEventListener('click', e => {
+        const href = link.getAttribute('href');
+        if (href && href.startsWith('#')) {
+          e.preventDefault();
+          const target = document.querySelector(href);
+          if (target) target.scrollIntoView({ behavior: 'smooth', block: 'start' });
+        }
+      });
+    });
+
+    const sectionIds = ['about', 'projects', 'blog', 'certificates', 'achievements', 'resume', 'contact'];
+    window.addEventListener('scroll', () => {
+      document.getElementById('nav').classList.toggle('scrolled', window.scrollY > 8);
+      let current = '';
+      for (const id of sectionIds) {
+        const el = document.getElementById(id);
+        if (el && el.getBoundingClientRect().top <= 120) current = id;
+      }
+      document.querySelectorAll('.nav-links a').forEach(a => {
+        a.classList.toggle('active', a.getAttribute('href') === '#' + current);
+      });
+    });
+
+    renderProjects();
+    renderBlog();
+    renderCerts();
+    renderAchievements();
+    renderResume();
+    renderContact();
+    observe();
+  </script>
+</body>
+
+</html>
